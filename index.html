@@ -1,0 +1,537 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>speak softly, and carry Big Data</title>
+	<meta name="author" content="Kevin Gilbert">
+
+	
+	<meta name="description" content="Jun 10th, 2013 Interview Questions, Modulus, R, RNG, Shalizi, codeblock Comments Distribution of the Modulus of a Random Variable We know that the &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="speak softly, and carry Big Data" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://www.speaksoftly.us/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("kgilbert.cmu@gmail.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+<hgroup>
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+<section class="aboutme">
+  <p>
+    I started this blog to write about my experiences as a statistician, computer scientist, and Sigma Chi at CMU.
+  </p>
+</section>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/kgilbert_cmu" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/kgilbert-cmu" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T07:33:00-04:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/interview-questions/'>Interview Questions</a>, <a class='category' href='/blog/categories/modulus/'>Modulus</a>, <a class='category' href='/blog/categories/r/'>R</a>, <a class='category' href='/blog/categories/rng/'>RNG</a>, <a class='category' href='/blog/categories/shalizi/'>Shalizi</a>, <a class='category' href='/blog/categories/codeblock/'>codeblock</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/distribution-of-the-modulus-of-a-random-variable/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/distribution-of-the-modulus-of-a-random-variable/" itemprop="url">Distribution of the Modulus of a Random Variable</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>We know that the distribution of the sum <script type="math/tex">Y = X_1 + X_2 + ... + X_n</script> for n 
+random uniform variables approximates a normal distribution as n gets larger. 
+For right now, we&#8217;re referring to the discrete uniform distribution, and not 
+the continuous one.</p>
+
+<h3 id="what-is-the-distribution-of-y-mod-b-for-any-base-b">What is the distribution of Y mod b, for any base b?</h3>
+
+
+		
+		<a href="/blog/distribution-of-the-modulus-of-a-random-variable/" class="more-link">Read more &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T04:20:00-04:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/shalizi/'>Shalizi</a>, <a class='category' href='/blog/categories/speaksoftly/'>speaksoftly</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/new-blog-post-tomorrow-on-distributions/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/new-blog-post-tomorrow-on-distributions/" itemprop="url">New blog post tomorrow: On Distributions</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I&#8217;m finalizing a future post I&#8217;m planning to post sometime this week. I had a crazy good discussion on <a href="http://statistics.reddit.com">r/statistics</a> and have some stuff that I think is cool enough to talk about. Right now I&#8217;m waiting back on an email response from Cosma Shalizi about what he thinks. I&#8217;m really excited to post something about this because there&#8217;s practically no prior research available.</p>
+
+<p>Or, if there is, my Google-fu wasn&#8217;t nearly good enough to find it.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T04:14:00-04:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/paranormal-distribution/'>Paranormal Distribution</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/the-paranormal-distribution/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/the-paranormal-distribution/" itemprop="url">The Paranormal Distribution</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><img src="/images/blog/ghost.png" alt="I fucking love this picture" /></p>
+
+
+		
+		<a href="/blog/the-paranormal-distribution/" class="more-link">Read more &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T02:37:00-04:00" data-updated="true" itemprop="datePublished">Jun 10<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/cmu/'>CMU</a>, <a class='category' href='/blog/categories/geoparser/'>Geoparser</a>, <a class='category' href='/blog/categories/sigma-chi/'>Sigma Chi</a>, <a class='category' href='/blog/categories/speaksoftly/'>speaksoftly</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/back-on-schedule/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/back-on-schedule/" itemprop="url">Back on Schedule</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		
+		
+		<a href="/blog/back-on-schedule/" class="more-link">Read more &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-19T02:01:00-05:00" data-updated="true" itemprop="datePublished">Feb 19<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/teaching/'>Teaching</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/picking-the-right-fight/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/picking-the-right-fight/" itemprop="url">Picking the Right Fight</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Today in Roni&#8217;s class we talked about picking fights. I think you&#8217;re within 
+your rights to tackle your problem any way you want, but it&#8217;s an important 
+battle to &#8220;pick the right fight&#8221;. </p>
+
+
+		
+		<a href="/blog/picking-the-right-fight/" class="more-link">Read more &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-08T19:12:00-05:00" data-updated="true" itemprop="datePublished">Feb 8<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/big-data/'>Big Data</a>, <a class='category' href='/blog/categories/buzzwords/'>Buzzwords</a>, <a class='category' href='/blog/categories/data-science/'>Data Science</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/big-data-as-a-fad/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/big-data-as-a-fad/" itemprop="url">Thoughts on &#8216;Big Data&#8217; as a fad</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>As a current student pursuing a career in data science, it really gets on my 
+nerves when people ask me &#8220;What is Big Data?&#8221;, or worse, talk about how I 
+should get &#8220;into&#8221; it. The problem is that the size of the data is not what 
+makes data interesting. As a statistician, as a researcher in machine 
+learning, or just as a student, we are far more interested in figuring out 
+what to do with the <em>current</em> data, than worrying about big it is. </p>
+
+
+		
+		<a href="/blog/big-data-as-a-fad/" class="more-link">Read more &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-08T14:22:00-05:00" data-updated="true" itemprop="datePublished">Feb 8<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/deming/'>Deming</a>, <a class='category' href='/blog/categories/quotes/'>Quotes</a>, <a class='category' href='/blog/categories/blockquote/'>blockquote</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/in-god-we-trust/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/in-god-we-trust/" itemprop="url">In God we trust.</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<blockquote><p>In God we trust. Everybody else bring data.</p><footer><strong>W. Edwards Deming</strong> <cite>The Elements of Statistical Learning</cite></footer></blockquote>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-08T14:22:00-05:00" data-updated="true" itemprop="datePublished">Feb 8<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/bylaws/'>Bylaws</a>, <a class='category' href='/blog/categories/markdown/'>Markdown</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>, <a class='category' href='/blog/categories/speaksoftly/'>speaksoftly</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/hello-world-octopress-is-finally-running/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/hello-world-octopress-is-finally-running/" itemprop="url">Hello World! Octopress is finally running!</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I have pretty much no idea what business I have writing a blog. I have a terrible
+attention span to writing. I think it looks really tacky when a blog goes
+weeks or months in between posts. To make matters worse, I&#8217;m not super 
+thrilled with my choice of domain (on the <code>.us</code> TLD), but there was a $3.99 sale 
+at <a href="http://name.com">name.com</a> and I felt like it was a decent price. It gives 
+me a little bit of a playground to play in without shelling out a dozen bucks
+for a &#8220;real&#8221; <code>.com</code> website. </p>
+
+<p>Getting Octopress set up was in and of itself an endeavor, but I&#8217;ll get the 
+hang of it as time goes on. The host I&#8217;m using only lets me use static HTML 
+files so Octopress was a very ideal system. It took maybe 16 hours to get the 
+whole thing together. I had major issues with Ruby installation and raking 
+files correctly. I&#8217;m pretty sure I still hate the command <code>bundle install</code>. 
+I highly recommend those following in my footsteps to use <code>yari</code>.</p>
+
+<p>One of the other things that attracted me to a blog was being able to publish code 
+snippets in Markdown. Since I&#8217;ve gotten into using Markdown for my text files, 
+I&#8217;ve started to enjoy just&#8230; writing Markdown. It&#8217;s kind of fun, and everything
+comes out looking so nice. <a href="http://www.github.com/sethvargo">Seth</a> and I want to
+port our chapter&#8217;s bylaws to Markdown so they&#8217;re not mired in the bullshit <code>.docx</code> 
+they&#8217;re languishing in now. Not to say we&#8217;ll be publishing <code>LaTeX</code> in fraternity bylaws, 
+but the Office format bothers me. A lot.</p>
+
+<h2 id="speak-softly-and-carry-big-data">Speak Softly, and carry Big Data.</h2>
+
+<p>As for the blog, I&#8217;m only here to talk about things that I&#8217;m really passionate 
+about. Yes, a lot of that will come from my professional work. Expect lots of statistics,
+math, some physics, and tons of programming thrown in. But I&#8217;ll also be here to
+write about some of the stuff I get engaged with, and probably mention a lot of the 
+Sigma Chi stuff I get involved in.</p>
+
+<p>What else could be more important?</p>
+
+		
+		
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - Kevin Gilbert -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'speaksoftly';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: speaksoftly | speak softly, and carry Big Data]]></title>
+  <link href="http://www.speaksoftly.us/blog/categories/speaksoftly/atom.xml" rel="self"/>
+  <link href="http://www.speaksoftly.us/"/>
+  <updated>2013-10-01T01:45:06-04:00</updated>
+  <id>http://www.speaksoftly.us/</id>
+  <author>
+    <name><![CDATA[Kevin Gilbert]]></name>
+    <email><![CDATA[kgilbert.cmu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[New blog post tomorrow: On Distributions]]></title>
+    <link href="http://www.speaksoftly.us/blog/new-blog-post-tomorrow-on-distributions/"/>
+    <updated>2013-06-10T04:20:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/new-blog-post-tomorrow-on-distributions</id>
+    <content type="html"><![CDATA[<p>I&#8217;m finalizing a future post I&#8217;m planning to post sometime this week. I had a crazy good discussion on <a href="http://statistics.reddit.com">r/statistics</a> and have some stuff that I think is cool enough to talk about. Right now I&#8217;m waiting back on an email response from Cosma Shalizi about what he thinks. I&#8217;m really excited to post something about this because there&#8217;s practically no prior research available.</p>
+
+<p>Or, if there is, my Google-fu wasn&#8217;t nearly good enough to find it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Back on Schedule]]></title>
+    <link href="http://www.speaksoftly.us/blog/back-on-schedule/"/>
+    <updated>2013-06-10T02:37:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/back-on-schedule</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+<p>Today is the first time since February that I&#8217;m actually pushing something 
+onto Octopress. Skimming over much of my Junior Spring semester at CMU, I was 
+monstrously busy with some difficult classes (<a href="http://www.cs.cmu.edu/~roni/10601/">Roni&#8217;s Machine Learning</a> 
+and <a href="http://www.stat.cmu.edu/~cshalizi/uADA/13/">Cosma&#8217;s 402</a> just to name a few), 
+then throw on top of that the <a href="http://www.cmusigmachi.org">Lambda Pi chapter</a>&#8217;s 
+first semester of operation as a chapter. We held our first <a href="http://dd.cmusigmachi.org/">Derby Days</a> 
+(<a href="https://github.com/sethvargo">Seth Vargo</a> deserves a mention for his 
+incredible job on that website, which he did mostly alone), initiated our 
+first class (for which I had the honor of being Ritual Chairman), graduated 
+our first Seniors, and earned ourselves our first 
+<a href="http://www.sigmachi.org/province-balfour-award">Province Balfour Award</a> (again, Seth). 
+This summer, I&#8217;m looking forward to representing my fraternity chapter as the 
+Delegate to our Grand Chapter held in Washington, D.C., and I might be making 
+a cameo appearance at <a href="http://balfourltw.sigmachi.org/">BLTW</a>.</p>
+
+<p>This summer, I&#8217;m back to work at CMU with another research division. For the 
+next two months I&#8217;ll be doing geoparsing with <a href="http://www.cs.cmu.edu/~gelern/">Judith Gelernter</a> in LTI. 
+The project has a lot of interesting background on social media interactons 
+and I&#8217;m hoping it&#8217;ll give me lots of table-talk in the future, to piggy-back 
+my previous research work at CMU. Recruiters love hearing about the weird 
+stuff you can accomplish with current statistics methods. It&#8217;s like a weird 
+arms race of who can come up with the most terrifying implications for user data.</p>
+
+<p>Other than that, it seems like nothing has really changed since the beginning 
+of the year, and it doesn&#8217;t even seem like it was that long ago. The only 
+noticable difference that I can tell is that I&#8217;m using Spotify now instead of 
+Pandora and I&#8217;m living with 4 of my brothers in an off-campus house instead 
+of with 15 of my brothers in the Sigma Chi house.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World! Octopress is finally running!]]></title>
+    <link href="http://www.speaksoftly.us/blog/hello-world-octopress-is-finally-running/"/>
+    <updated>2013-02-08T14:22:00-05:00</updated>
+    <id>http://www.speaksoftly.us/blog/hello-world-octopress-is-finally-running</id>
+    <content type="html"><![CDATA[<p>I have pretty much no idea what business I have writing a blog. I have a terrible
+attention span to writing. I think it looks really tacky when a blog goes
+weeks or months in between posts. To make matters worse, I&#8217;m not super 
+thrilled with my choice of domain (on the <code>.us</code> TLD), but there was a $3.99 sale 
+at <a href="http://name.com">name.com</a> and I felt like it was a decent price. It gives 
+me a little bit of a playground to play in without shelling out a dozen bucks
+for a &#8220;real&#8221; <code>.com</code> website. </p>
+
+<p>Getting Octopress set up was in and of itself an endeavor, but I&#8217;ll get the 
+hang of it as time goes on. The host I&#8217;m using only lets me use static HTML 
+files so Octopress was a very ideal system. It took maybe 16 hours to get the 
+whole thing together. I had major issues with Ruby installation and raking 
+files correctly. I&#8217;m pretty sure I still hate the command <code>bundle install</code>. 
+I highly recommend those following in my footsteps to use <code>yari</code>.</p>
+
+<p>One of the other things that attracted me to a blog was being able to publish code 
+snippets in Markdown. Since I&#8217;ve gotten into using Markdown for my text files, 
+I&#8217;ve started to enjoy just&#8230; writing Markdown. It&#8217;s kind of fun, and everything
+comes out looking so nice. <a href="http://www.github.com/sethvargo">Seth</a> and I want to
+port our chapter&#8217;s bylaws to Markdown so they&#8217;re not mired in the bullshit <code>.docx</code> 
+they&#8217;re languishing in now. Not to say we&#8217;ll be publishing <code>LaTeX</code> in fraternity bylaws, 
+but the Office format bothers me. A lot.</p>
+
+<h2 id="speak-softly-and-carry-big-data">Speak Softly, and carry Big Data.</h2>
+
+<p>As for the blog, I&#8217;m only here to talk about things that I&#8217;m really passionate 
+about. Yes, a lot of that will come from my professional work. Expect lots of statistics,
+math, some physics, and tons of programming thrown in. But I&#8217;ll also be here to
+write about some of the stuff I get engaged with, and probably mention a lot of the 
+Sigma Chi stuff I get involved in.</p>
+
+<p>What else could be more important?</p>
+]]></content>
+  </entry>
+  
+</feed>

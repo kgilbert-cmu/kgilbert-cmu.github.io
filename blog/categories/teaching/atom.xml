@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Teaching | speak softly, and carry Big Data]]></title>
+  <link href="http://www.speaksoftly.us/blog/categories/teaching/atom.xml" rel="self"/>
+  <link href="http://www.speaksoftly.us/"/>
+  <updated>2013-10-01T01:45:06-04:00</updated>
+  <id>http://www.speaksoftly.us/</id>
+  <author>
+    <name><![CDATA[Kevin Gilbert]]></name>
+    <email><![CDATA[kgilbert.cmu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Picking the Right Fight]]></title>
+    <link href="http://www.speaksoftly.us/blog/picking-the-right-fight/"/>
+    <updated>2013-02-19T02:01:00-05:00</updated>
+    <id>http://www.speaksoftly.us/blog/picking-the-right-fight</id>
+    <content type="html"><![CDATA[<p>Today in Roni&#8217;s class we talked about picking fights. I think you&#8217;re within 
+your rights to tackle your problem any way you want, but it&#8217;s an important 
+battle to &#8220;pick the right fight&#8221;. </p>
+
+<!-- more -->
+
+<p>What I mean about &#8220;picking the right fight&#8221; in statistics, is to tread carefully
+when you make conclusions about the analysis. Often, we&#8217;re trying to show or 
+prove or disprove or undermine or support some claim given some data about
+the claim. So let&#8217;s say we&#8217;ve performed some experiment and have two binary questions: 
+Do we have enough data, and do we have low error?</p>
+
+<ul>
+  <li>
+    <p>Option 1:
+If you have tons of data and you have very low error, you should <strong>GO HOME</strong>. 
+There&#8217;s nothing else to be done here. Finish up, because you aren&#8217;t
+going to come up with anything interesting any more. Honestly, what could 
+be more perfect? This is like the ideal, frictionless scenario.</p>
+  </li>
+  <li>
+    <p>Option 2: 
+If you have not a lot of data and you have very high error, you should <strong>GO HOME</strong>.
+There&#8217;s nothing which <strong>can</strong> be done here. It&#8217;s an abysmal situation. 
+You can either continue to make poor predictions, or you could just start making 
+shit up. Either way, you have to rethink your strategy. This is where picking the right fight comes in later.</p>
+  </li>
+  <li>
+    <p>Option 3:
+If you have a lot of data but you have very high error, you should <strong>CRY</strong>.
+You dun goofed. Either your data is totally irrelevant (you should do more 
+statistical analysis), your algorithm is terrible (you should do more 
+statistical analysis), or you did something terribly wrong. More statistical 
+analysis wouldn&#8217;t hurt.</p>
+  </li>
+  <li>
+    <p>Option 4:
+If you don&#8217;t have a lot of data but you have very low error, you should be <strong>SKEPTICAL</strong>.
+It&#8217;s a fluke, do the test again. Don&#8217;t buy in to thinking that there&#8217;s a practically 
+significant relationship between children&#8217;s shoe sizes and their IQ. You&#8217;re not thinking
+through this clearly enough and you&#8217;re making mistakes along the way.</p>
+  </li>
+</ul>
+
+<h2 id="so-what-option-are-you">So what option are you?</h2>
+
+<p>Personally, I like being put into situation #2. There is some sort of morbid pleasure 
+in being able to wreak order out of chaos. But if you&#8217;re going to go down that path, 
+you need to be aware that you can only take those risks by picking the right fight. 
+How could we rectify the situation (pick a better fight) if we have too little data to speak of?
+How about bootstrapping more samples? How do we sample a more variable population if our
+current data is too homogenous? How about bootstrapping the residuals? </p>
+
+<p>OK, maybe you can just solve all of your problems by bootstrapping. Thanks 402.</p>
+]]></content>
+  </entry>
+  
+</feed>

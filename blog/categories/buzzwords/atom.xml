@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Buzzwords | speak softly, and carry Big Data]]></title>
+  <link href="http://www.speaksoftly.us/blog/categories/buzzwords/atom.xml" rel="self"/>
+  <link href="http://www.speaksoftly.us/"/>
+  <updated>2013-10-01T01:45:06-04:00</updated>
+  <id>http://www.speaksoftly.us/</id>
+  <author>
+    <name><![CDATA[Kevin Gilbert]]></name>
+    <email><![CDATA[kgilbert.cmu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Thoughts on 'Big Data' as a fad]]></title>
+    <link href="http://www.speaksoftly.us/blog/big-data-as-a-fad/"/>
+    <updated>2013-02-08T19:12:00-05:00</updated>
+    <id>http://www.speaksoftly.us/blog/big-data-as-a-fad</id>
+    <content type="html"><![CDATA[<p>As a current student pursuing a career in data science, it really gets on my 
+nerves when people ask me &#8220;What is Big Data?&#8221;, or worse, talk about how I 
+should get &#8220;into&#8221; it. The problem is that the size of the data is not what 
+makes data interesting. As a statistician, as a researcher in machine 
+learning, or just as a student, we are far more interested in figuring out 
+what to do with the <em>current</em> data, than worrying about big it is. </p>
+
+<!-- more -->
+
+<p>I get it. I need to be able to make accurate predictions and estimates and 
+forecasts and I might need to do that without as much data as I want, but 
+that&#8217;s a collection issue. Things don&#8217;t start falling into place just because
+you have a database with a lot of dense stuff in it. Your data science is only
+as good as the statistical analysis you put behind it. <em>True</em> Big Data is 
+about leveraging the correct data, in the correct form, with the correct models.</p>
+
+<p>On the other hand, we still have to deal with this &#8220;Big Data&#8221; word fiasco. 
+It&#8217;s starting to become a household buzzword, which is a sure sign that it&#8217;s 
+becoming &#8220;mainstream&#8221; and is no longer the corporate hipster slang it used to 
+be. Go do a lookup for the keyword phrase &#8220;Big Data&#8221; on LinkedIn and take a 
+look at the profiles that show up. We get lots of references to &#8220;Big Data&#8221; 
+platforms and systems, but does anyone actually say &#8220;Yea, I do data analysis.&#8221;</p>
+
+<p>No, they don&#8217;t.</p>
+
+<p>And it&#8217;s just like 10 years ago when you had people clamoring to get in line 
+for the &#8220;Data Mining&#8221; train. It created this false perception that somehow 
+these incredible important nuggets of information are hidden behind a thick 
+layer of dust and grime, but if we <strong>mine</strong> hard enough or use enough computers
+then we&#8217;ll be able to find it! </p>
+
+<p>Except that&#8217;s not how it works, either.</p>
+
+<p>More likely than not, you&#8217;re searching for patterns, not nuggets. And you&#8217;ll
+never know if you found your pattern or if you&#8217;re just looking at some more dirt.
+You&#8217;ll need your statistics (or a friendly statistician on-hand) to interpret 
+that dirt, and tell you how if you project the dirt into multidimensional 
+scaling then you can reduce misclassification of future dirt, somehow.</p>
+
+<p>The one good thing about all these people going heads-over-heels for Big Data 
+is that everything is being recorded. The data is already out there, being 
+voluntarily relinquished every day. Wait just long enough, and write a program
+that&#8217;s <em>just</em> smart enough, and you can start connecting some really cool dots.</p>
+
+<p>History will remember how the world was rocked by Web 2.0 (the &#8220;Social Revolution&#8221;
+of everything we do online), but there&#8217;s another storm coming. For years now,
+companies have been recording every ounce of data they can afford to store on 
+a hard drive and the user is willing to part with. Then they hand off that 
+information (they&#8217;ll tell you they never /sell/ it) to someone who can leverage it.
+The more dirt they have, the better chance they&#8217;ll be able to polish that dirt
+into a really cool training set of gold dirt, and then they&#8217;ll make tons of money.</p>
+
+<p>So now the question for me is, &#8220;Who is going to be the one to leverage that data?&#8221; 
+Big Data is nothing more than when your current data is too big for your current 
+hardware. It&#8217;s a scaling problem, and it&#8217;s an engineering problem, but Big Data is not a 
+scientific problem. Statistical analysis is a scientific problem, and I&#8217;ll try 
+to position myself right at the front of that train. Web 3.0: the Data Revolution.</p>
+]]></content>
+  </entry>
+  
+</feed>

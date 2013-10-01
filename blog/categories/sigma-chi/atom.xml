@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sigma Chi | speak softly, and carry Big Data]]></title>
+  <link href="http://www.speaksoftly.us/blog/categories/sigma-chi/atom.xml" rel="self"/>
+  <link href="http://www.speaksoftly.us/"/>
+  <updated>2013-10-01T01:45:06-04:00</updated>
+  <id>http://www.speaksoftly.us/</id>
+  <author>
+    <name><![CDATA[Kevin Gilbert]]></name>
+    <email><![CDATA[kgilbert.cmu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Back on Schedule]]></title>
+    <link href="http://www.speaksoftly.us/blog/back-on-schedule/"/>
+    <updated>2013-06-10T02:37:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/back-on-schedule</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+<p>Today is the first time since February that I&#8217;m actually pushing something 
+onto Octopress. Skimming over much of my Junior Spring semester at CMU, I was 
+monstrously busy with some difficult classes (<a href="http://www.cs.cmu.edu/~roni/10601/">Roni&#8217;s Machine Learning</a> 
+and <a href="http://www.stat.cmu.edu/~cshalizi/uADA/13/">Cosma&#8217;s 402</a> just to name a few), 
+then throw on top of that the <a href="http://www.cmusigmachi.org">Lambda Pi chapter</a>&#8217;s 
+first semester of operation as a chapter. We held our first <a href="http://dd.cmusigmachi.org/">Derby Days</a> 
+(<a href="https://github.com/sethvargo">Seth Vargo</a> deserves a mention for his 
+incredible job on that website, which he did mostly alone), initiated our 
+first class (for which I had the honor of being Ritual Chairman), graduated 
+our first Seniors, and earned ourselves our first 
+<a href="http://www.sigmachi.org/province-balfour-award">Province Balfour Award</a> (again, Seth). 
+This summer, I&#8217;m looking forward to representing my fraternity chapter as the 
+Delegate to our Grand Chapter held in Washington, D.C., and I might be making 
+a cameo appearance at <a href="http://balfourltw.sigmachi.org/">BLTW</a>.</p>
+
+<p>This summer, I&#8217;m back to work at CMU with another research division. For the 
+next two months I&#8217;ll be doing geoparsing with <a href="http://www.cs.cmu.edu/~gelern/">Judith Gelernter</a> in LTI. 
+The project has a lot of interesting background on social media interactons 
+and I&#8217;m hoping it&#8217;ll give me lots of table-talk in the future, to piggy-back 
+my previous research work at CMU. Recruiters love hearing about the weird 
+stuff you can accomplish with current statistics methods. It&#8217;s like a weird 
+arms race of who can come up with the most terrifying implications for user data.</p>
+
+<p>Other than that, it seems like nothing has really changed since the beginning 
+of the year, and it doesn&#8217;t even seem like it was that long ago. The only 
+noticable difference that I can tell is that I&#8217;m using Spotify now instead of 
+Pandora and I&#8217;m living with 4 of my brothers in an off-campus house instead 
+of with 15 of my brothers in the Sigma Chi house.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Paranormal Distribution | speak softly, and carry Big Data]]></title>
+  <link href="http://www.speaksoftly.us/blog/categories/paranormal-distribution/atom.xml" rel="self"/>
+  <link href="http://www.speaksoftly.us/"/>
+  <updated>2013-10-01T01:45:06-04:00</updated>
+  <id>http://www.speaksoftly.us/</id>
+  <author>
+    <name><![CDATA[Kevin Gilbert]]></name>
+    <email><![CDATA[kgilbert.cmu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Paranormal Distribution]]></title>
+    <link href="http://www.speaksoftly.us/blog/the-paranormal-distribution/"/>
+    <updated>2013-06-10T04:14:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/the-paranormal-distribution</id>
+    <content type="html"><![CDATA[<p><img src="/images/blog/ghost.png" alt="I fucking love this picture" /></p>
+
+<!-- more -->
+
+<p>When it comes to <a href="https://www.google.com/search?q=statistics+jokes">statistics jokes</a> (why are there so few?), my hands-down favorite has to be the Paranormal Distribution. For 3 different classes at CMU, I&#8217;ve named my final projects team &#8220;Paranormal Distribution&#8221;, and it&#8217;s never let me down. I usually like to cite <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/">A visual comparison of normal and paranormal distributions</a> by Matthew Freeman and just to see what the professor thinks on the Works Cited page. In my most recent project, I was even audacious enough to put it on the <a href="https://github.com/kgilbert-cmu/DataCriming">final report</a>.</p>
+
+<p>Unfortunately, &#8220;Paranormal Distribution&#8221; still remains my second-best team project name, ranking just under &#8220;Helen Keller&#8221;, the Wikipedia NLP project with <a href="https://github.com/dbmikus">Dylan</a> and <a href="https://github.com/minigeek">Chase</a>. That one goes on my resume.</p>
+]]></content>
+  </entry>
+  
+</feed>

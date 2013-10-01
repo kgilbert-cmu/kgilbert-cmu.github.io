@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[speak softly, and carry Big Data]]></title>
+  <link href="http://www.speaksoftly.us/atom.xml" rel="self"/>
+  <link href="http://www.speaksoftly.us/"/>
+  <updated>2013-10-01T01:45:06-04:00</updated>
+  <id>http://www.speaksoftly.us/</id>
+  <author>
+    <name><![CDATA[Kevin Gilbert]]></name>
+    <email><![CDATA[kgilbert.cmu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Distribution of the Modulus of a Random Variable]]></title>
+    <link href="http://www.speaksoftly.us/blog/distribution-of-the-modulus-of-a-random-variable/"/>
+    <updated>2013-06-10T07:33:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/distribution-of-the-modulus-of-a-random-variable</id>
+    <content type="html"><![CDATA[<p>We know that the distribution of the sum <script type="math/tex">Y = X_1 + X_2 + ... + X_n</script> for n 
+random uniform variables approximates a normal distribution as n gets larger. 
+For right now, we&#8217;re referring to the discrete uniform distribution, and not 
+the continuous one.</p>
+
+<h3 id="what-is-the-distribution-of-y-mod-b-for-any-base-b">What is the distribution of Y mod b, for any base b?</h3>
+
+<!-- more -->
+
+<p>Alright, rewind. Earlier this year, I had a technical interview and the 
+following was an actual interview question: mimic <code>rand7</code>, given only <code>rand5</code>. 
+For those of us lucky enough to work with a statistical language like <strong>R</strong>, 
+we&#8217;ve got:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="r"><span class="line"><span class="o">&gt;</span> rand7 <span class="o">=</span> sample<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">7</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;</span> rand5 <span class="o">=</span> sample<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Boom. Problem done. Well, not exactly. The goal of this interview question is 
+to figure out a way to expand the range of <code>rand5</code> while preserving the 
+uniformity of each output value in <code>rand7</code>. I think it&#8217;s only a disarming 
+question in an interview because we don&#8217;t often work with the intricacies of 
+random number generation in our coursework. Even at a school like CMU, 
+we&#8217;re usually dealing with the analysis of the distribution, not its transformations.
+The most important task in this problem is to ensure that all 7 outputs have 
+exactly equal probability of being output, even though you&#8217;re only being given 
+enough &#8220;randomness&#8221; for 5 outputs. In more modern parlance, we have to pull 
+some entropy <em>out of our ass</em>. </p>
+
+<p>I&#8217;ve researched a couple solutions to this problem, and they range from simple 
+to esoteric. One of the more complex options is to use our smaller RNG to 
+uniformly build a larger generater than we actually need, then sample back 
+down to the range we want. The second step, to sample back down, is guaranteed
+to be uniform as long as we only sample within a particular range, seen below.</p>
+
+<p>Let&#8217;s generalize: suppose our problem was &#8220;given <code>rand2</code>, compute <code>rand3</code>.&#8221; </p>
+
+<p>Really, this is the base case of our interview question, if you will. </p>
+
+<p>And the beautiful thing is that if we consider the outputs of <code>rand2</code> as the 
+paths along a binary tree, we can make a pretty powerful metaphor for this 
+problem. So let&#8217;s say we take the left branch of our binary tree if 
+<code>rand2 == 0</code> and the right branch if <code>rand2 == 1</code>. Every time we decide to 
+call <code>rand2</code>, we have to add a level to the tree. At the bottom, we label each 
+leaf node with a number: <code>1</code>, <code>2</code>, or <code>3</code>. These labels are our RNG output. </p>
+
+<p>If our tree has $j$ levels at the end, then we&#8217;ll make $j$ calls to <code>rand2</code>, take 
+those paths, then return the label at the bottom-most leaf.</p>
+
+<p>Without even considering how to decide which leaf nodes should be labeled 
+what, we note that the probability of reaching any of the nodes labeled <code>3</code> 
+would be to sum up the probabilities along the path to reach each such node 
+labeled <code>3</code>. Since the probability to reach one particular node is 
+<script type="math/tex">\tfrac{1}{2^j}</script> (where $j$ is the level in which the node is found), then the 
+total probability to reach any of our nodes labeled <code>3</code> would be the sum of 
+that. This makes the form of our probability statement something like 
+<script type="math/tex"> \sum_j \tfrac{1}{2^j} = \tfrac{1}{2^a} + \tfrac{1}{2^b} + \tfrac{1}{2^c} + ...</script></p>
+
+<p>The question is: is there a series of reciprocal powers <script type="math/tex">\{a, b, c, ...\}</script> 
+such that <script type="math/tex">\tfrac{1}{3} = \tfrac{1}{2^a} + \tfrac{1}{2^b} + \tfrac{1}{2^c} + ...</script>?</p>
+
+<p>And the answer is no, because 2 and 3 are <strong>relatively prime</strong>. Well that&#8217;s simple. Math is cool.</p>
+
+<h2 id="so-what-do-we-do">So what do we do?</h2>
+
+<p>We need to use our smaller RNG to generate a larger range than either RNG 
+(think kind of like a least-common-multiple) and then reduce back down to the 
+target RNG. Generation of the larger range can be done easily enough by 
+&#8220;building&#8221; a large number, in a very literal sense. Reduction can also be done
+easily with repeated sampling. </p>
+
+<p>Let&#8217;s go back to our 5 &amp; 7 case.  What we&#8217;ll do is &#8220;create&#8221; a random base-5 
+number with <code>num = 5 * (rand5() - 1) + (rand5() - 1)</code> and as long as &#8216;num&#8217; is 
+less than 21 (in base 10) (41 in base 5), then its modulus by 7 will be 
+uniform, because it is a multiple of 7 (in this case 3 * 7). You could 
+realistically use any multiple of 7, I think. I&#8217;d really like it if somebody 
+could back me up on that claim.</p>
+
+<p>Here&#8217;s the solution my interviewer emphatically claimed was the only solution:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Solution by Gayle Laakman</span><a href="http://www.crackingthecodinginterview.com/content/cracking-coding-interview">link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="java"><span class="line"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">rand7</span><span class="o">()</span> <span class="o">{</span>
+</span><span class="line">  <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="o">(</span><span class="n">rand5</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="n">rand5</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class="line">    <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="mi">21</span><span class="o">)</span> <span class="k">return</span> <span class="o">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">7</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class="line">  <span class="o">}</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Let&#8217;s get a couple criticisms out of the way. </p>
+
+<ul>
+  <li>The solution could run forever, but <script type="math/tex">\sum_{i=1}^{\infty} \tfrac{1}{2^i} = 1</script> converges, so you&#8217;ll get something eventually. </li>
+  <li><em>It&#8217;s not intuitive at all</em>. </li>
+</ul>
+
+<p>It certainly wasn&#8217;t the first thing I thought of, yet it&#8217;s the &#8220;by-the-book&#8221; solution.</p>
+
+<p>So let&#8217;s look at a different solution for this problem, and one which bothered 
+me the moment I saw it work. You&#8217;d think that we want things to work, but I&#8217;m 
+surprised because I feel like it <strong>shouldn&#8217;t</strong> work. It feels like this solution
+is taking the easy way out, and then to top it all off, <strong>there&#8217;s no Google results</strong>
+that suggest it&#8217;s even viable.</p>
+
+<h2 id="well-take-seven-random-samples-of-15-add-them-up-and-take-their-modulus">We&#8217;ll take seven random samples of 1:5, add them up, and take their modulus.</h2>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="r"><span class="line"><span class="o">&gt;</span> rand5 <span class="o">=</span> <span class="kr">function</span><span class="p">()</span> sample<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;</span> rand7 <span class="o">=</span> <span class="kr">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">    x <span class="o">=</span> replicate<span class="p">(</span><span class="m">7</span><span class="p">,</span> rand5<span class="p">())</span>
+</span><span class="line">    Y <span class="o">=</span> sum<span class="p">(</span>x<span class="p">)</span>
+</span><span class="line">    <span class="kr">return</span><span class="p">(</span>Y <span class="o">%%</span> <span class="m">7</span><span class="p">)</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line"><span class="o">&gt;</span> plot<span class="p">(</span>density<span class="p">(</span>replicate<span class="p">(</span><span class="m">1e6</span><span class="p">,</span> rand7<span class="p">())),</span> main <span class="o">=</span> <span class="s">&quot;Uniform Density&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Wait&#8230; What the hell? </p>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://i.imgur.com/2cXZaaU.jpg" width="" height="" alt="It looks totally uniform!" title="It looks totally uniform!" /><span class="caption-text">It looks totally uniform!</span></span></p>
+
+<p>Let&#8217;s look at it this way, the sum <script type="math/tex">Y = X_1 + X_2 + ... + X_n</script> for n random 
+uniform variables approximates a normal distribution as n gets larger. 
+Everybody agrees, yes? </p>
+
+<p>Then right before that modulus, our hero <script type="math/tex">Y</script> should be something really 
+close to a normal distribution with mean 21 and standard deviation <script type="math/tex">\sqrt{14}</script>. 
+How close? </p>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://i.imgur.com/p7jID8z.jpg" width="" height="" alt="Pretty close." title="Pretty close." /><span class="caption-text">Pretty close.</span></span></p>
+
+<p>The mean is 21 because that&#8217;s <script type="math/tex">E[Y] = E[\sum_i X_i] = \sum_i E[X_i]</script> by 
+<a href="http://en.wikipedia.org/wiki/Expected_value#Linearity">linearity of expectation</a> 
+and it just so happens that for a uniform random variable <script type="math/tex">X \sim Unif(a,b)</script>, 
+<script type="math/tex">E[X] = \frac{a + b}{2}</script> so <script type="math/tex">E[Y] = 7 \times E[X] = 7 \times \frac{1+5}{2} = 7 \times 3 = 21</script>. 
+The variance of a uniform distribution is (the really weird) <script type="math/tex">V[X] = \frac{n^2 - 1}{12}</script> 
+where <script type="math/tex">n</script> is the number of discrete possibilities. Since we&#8217;re looking at 
+the discrete uniform distribution from 1 to 5, that gives us 5 total choices 
+and <script type="math/tex">V[X] = \frac{5^2 - 1}{12} = 2</script>. Then by linearity <script type="math/tex">V[Y] = V[\sum_i X_i] = \sum_i V[X_i] = 7 \times 2 = 14</script>. 
+Thus, our standard deviation is <script type="math/tex">\sqrt{14}</script>.</p>
+
+<p>So right before that modulus, we&#8217;re definitely working with some value that 
+has been randomly drawn from <script type="math/tex">N(21,\sqrt{14})</script>. The normal distribution, a 
+unimodal density curve, indicates that we should expect to get the sum 21 more 
+often than any other number. Ok, it&#8217;s not a huge amount more, just about 4000 
+times more than its neighbors 20 and 22.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+</pre></td><td class="code"><pre><code class="r"><span class="line"><span class="o">&gt;</span> tmp <span class="o">=</span> replicate<span class="p">(</span><span class="m">1e6</span><span class="p">,</span> sum<span class="p">(</span>replicate<span class="p">(</span><span class="m">7</span><span class="p">,</span> rand5<span class="p">())))</span>
+</span><span class="line"><span class="o">&gt;</span> cbind<span class="p">(</span>table<span class="p">(</span>tmp<span class="p">),</span> <span class="m">7</span><span class="o">:</span><span class="m">35</span> <span class="o">%%</span> <span class="m">7</span><span class="p">)</span>
+</span><span class="line">     <span class="p">[,</span><span class="m">1</span><span class="p">]</span> <span class="p">[,</span><span class="m">2</span><span class="p">]</span>
+</span><span class="line"><span class="m">7</span>       <span class="m">9</span>    <span class="m">0</span>
+</span><span class="line"><span class="m">8</span>      <span class="m">79</span>    <span class="m">1</span>
+</span><span class="line"><span class="m">9</span>     <span class="m">345</span>    <span class="m">2</span>
+</span><span class="line"><span class="m">10</span>   <span class="m">1044</span>    <span class="m">3</span>
+</span><span class="line"><span class="m">11</span>   <span class="m">2638</span>    <span class="m">4</span>
+</span><span class="line"><span class="m">12</span>   <span class="m">5961</span>    <span class="m">5</span>
+</span><span class="line"><span class="m">13</span>  <span class="m">11351</span>    <span class="m">6</span>
+</span><span class="line"><span class="m">14</span>  <span class="m">19368</span>    <span class="m">0</span>
+</span><span class="line"><span class="m">15</span>  <span class="m">30733</span>    <span class="m">1</span>
+</span><span class="line"><span class="m">16</span>  <span class="m">45068</span>    <span class="m">2</span>
+</span><span class="line"><span class="m">17</span>  <span class="m">61191</span>    <span class="m">3</span>
+</span><span class="line"><span class="m">18</span>  <span class="m">77753</span>    <span class="m">4</span>
+</span><span class="line"><span class="m">19</span>  <span class="m">91031</span>    <span class="m">5</span>
+</span><span class="line"><span class="m">20</span> <span class="m">100546</span>    <span class="m">6</span>
+</span><span class="line"><span class="m">21</span> <span class="m">104512</span>    <span class="m">0</span>
+</span><span class="line"><span class="m">22</span> <span class="m">100739</span>    <span class="m">1</span>
+</span><span class="line"><span class="m">23</span>  <span class="m">91845</span>    <span class="m">2</span>
+</span><span class="line"><span class="m">24</span>  <span class="m">77630</span>    <span class="m">3</span>
+</span><span class="line"><span class="m">25</span>  <span class="m">61064</span>    <span class="m">4</span>
+</span><span class="line"><span class="m">26</span>  <span class="m">45485</span>    <span class="m">5</span>
+</span><span class="line"><span class="m">27</span>  <span class="m">30779</span>    <span class="m">6</span>
+</span><span class="line"><span class="m">28</span>  <span class="m">19544</span>    <span class="m">0</span>
+</span><span class="line"><span class="m">29</span>  <span class="m">11350</span>    <span class="m">1</span>
+</span><span class="line"><span class="m">30</span>   <span class="m">5680</span>    <span class="m">2</span>
+</span><span class="line"><span class="m">31</span>   <span class="m">2633</span>    <span class="m">3</span>
+</span><span class="line"><span class="m">32</span>   <span class="m">1144</span>    <span class="m">4</span>
+</span><span class="line"><span class="m">33</span>    <span class="m">370</span>    <span class="m">5</span>
+</span><span class="line"><span class="m">34</span>     <span class="m">91</span>    <span class="m">6</span>
+</span><span class="line"><span class="m">35</span>     <span class="m">17</span>    <span class="m">0</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Each row is one of our potential sum values of Y, the first column is the 
+number of times that sum appeared in a simulation of one million iterations, 
+and the second column is the corresponding modulus of that sum. Now, I figured 
+the peak in the center should inflate the number of instances of <code>21 %% 7</code> so 
+that it is the most-common-modulus value. As it turns out, while 21 
+(and 21 mod 7 = 0) is the most common, 7 mod 7 = 0 and 35 mod 7 = 0 are the 
+two <em>least</em> common. And in fact, it occurs in such perfect proportion that 
+this cascades all along the normal distribution so that every modulus 
+remainder has approximately equal number of sum values <script type="math/tex">Y</script> which are 
+congruent modulo 7.</p>
+
+<p>The normal distribution &#8220;folds&#8221; on itself in such a perfectly uniform way. </p>
+
+<p>It&#8217;s like it was destined to be this way.</p>
+
+<p>I couldn&#8217;t shake the feeling that the &#8220;proper&#8221; answer would be a truncated 
+normal distribution. On the other hand, modulus can only return one of the 
+integer values up to its base, and with 29 possibilities, we would run out of 
+integers four times over. My presumption, again, was that we&#8217;d see the most 
+modulus values at 21 mod 7 = 0. But where would 20 and 22 go? Well those 
+modulus values fall into -1 (6 mod 7) and 1 mod 7. Then the next set would be 
+at 5 mod 7 &amp; 2 mod 7, then 4 &amp; 3&#8230; then 3 &amp; 4. The wide tail support of our 
+normal distribution folds over to smooth everything out. </p>
+
+<p>So I did the only logical thing and turned to <a href="http://www.stat.cmu.edu/~cshalizi/">Cosma Shalizi</a> 
+to ask him why the modulus of a non-uniform distribution would resolve to a 
+uniform distribution in this way, emphasizing the way that the tails fold over 
+each other.</p>
+
+<h2 id="equidistribution">Equidistribution</h2>
+
+<p>Cosma confirmed that it is more a factor of the modulus than the normal 
+distribution. </p>
+
+<p>Here, roughly speaking, is the trick: take a non-negative but discrete random variable <script type="math/tex">Y</script>, with probability mass function <script type="math/tex">f</script>. We want to know the probability that <strong>Y mod 7 = k</strong>, for each <script type="math/tex">k</script>. Fix <script type="math/tex">k=0</script>. Then</p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+
+\begin{align}
+	Pr(Y mod 7 = 0) &=& Pr(Y=0) &+& Pr(Y=7) &+& Pr(Y=14) &+& ... \\
+                    &=& f(0) &+& f(7) &+& f(14) &+& ... \\
+\end{align}
+ %]]&gt;</script>
+
+<p>Now do this for all the other possible values of Y mod 7:</p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+
+\begin{align}
+	Pr(Y\mod 7=1) &=& f(1) + f(8) + f(15) + ... \\
+    Pr(Y\mod 7=2) &=& f(2) + f(9) + f(16) + ... \\
+	&...& \\
+	Pr(Y\mod 7=6) &=& f(6) + f(13) + f(22) + ... \\
+\end{align}
+ %]]&gt;</script>
+
+<p>Assume <script type="math/tex">f(y)</script> is about the same as <script type="math/tex">f(y+k)</script>, provided k is small, specifically if <script type="math/tex">% &lt;![CDATA[
+k < 7 %]]&gt;</script>.  If we think of <script type="math/tex">Y = X_1 + X_2+ ... X_n</script> and let n get very big, this makes sense, the typical scale over which the distribution is going to change is going to get larger and larger, so that a difference of just 7 becomes negligible.  But now we can say that</p>
+
+<ul>
+  <li><script type="math/tex">f(0), f(1), ..., f(6)</script> are all about equal</li>
+  <li>&#8230;</li>
+  <li><script type="math/tex">f(7), f(8), ... f(13)</script> are all about equal, etc.</li>
+</ul>
+
+<p>so</p>
+
+<script type="math/tex; mode=display"> Pr(Y\mod 7 = 0) = Pr(Y \mod 7 = 1) = ~...~ = Pr(Y\mod 7 = 6) = \frac{1}{7} </script>
+
+<p>Thus, we find that the distribution of <strong>Y mod k</strong> is uniform, regardless of whatever
+distribution <script type="math/tex">Y</script> itself is drawn from. </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New blog post tomorrow: On Distributions]]></title>
+    <link href="http://www.speaksoftly.us/blog/new-blog-post-tomorrow-on-distributions/"/>
+    <updated>2013-06-10T04:20:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/new-blog-post-tomorrow-on-distributions</id>
+    <content type="html"><![CDATA[<p>I&#8217;m finalizing a future post I&#8217;m planning to post sometime this week. I had a crazy good discussion on <a href="http://statistics.reddit.com">r/statistics</a> and have some stuff that I think is cool enough to talk about. Right now I&#8217;m waiting back on an email response from Cosma Shalizi about what he thinks. I&#8217;m really excited to post something about this because there&#8217;s practically no prior research available.</p>
+
+<p>Or, if there is, my Google-fu wasn&#8217;t nearly good enough to find it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Paranormal Distribution]]></title>
+    <link href="http://www.speaksoftly.us/blog/the-paranormal-distribution/"/>
+    <updated>2013-06-10T04:14:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/the-paranormal-distribution</id>
+    <content type="html"><![CDATA[<p><img src="http://www.speaksoftly.us/images/blog/ghost.png" alt="I fucking love this picture" /></p>
+
+<!-- more -->
+
+<p>When it comes to <a href="https://www.google.com/search?q=statistics+jokes">statistics jokes</a> (why are there so few?), my hands-down favorite has to be the Paranormal Distribution. For 3 different classes at CMU, I&#8217;ve named my final projects team &#8220;Paranormal Distribution&#8221;, and it&#8217;s never let me down. I usually like to cite <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2465539/">A visual comparison of normal and paranormal distributions</a> by Matthew Freeman and just to see what the professor thinks on the Works Cited page. In my most recent project, I was even audacious enough to put it on the <a href="https://github.com/kgilbert-cmu/DataCriming">final report</a>.</p>
+
+<p>Unfortunately, &#8220;Paranormal Distribution&#8221; still remains my second-best team project name, ranking just under &#8220;Helen Keller&#8221;, the Wikipedia NLP project with <a href="https://github.com/dbmikus">Dylan</a> and <a href="https://github.com/minigeek">Chase</a>. That one goes on my resume.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Back on Schedule]]></title>
+    <link href="http://www.speaksoftly.us/blog/back-on-schedule/"/>
+    <updated>2013-06-10T02:37:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/back-on-schedule</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+<p>Today is the first time since February that I&#8217;m actually pushing something 
+onto Octopress. Skimming over much of my Junior Spring semester at CMU, I was 
+monstrously busy with some difficult classes (<a href="http://www.cs.cmu.edu/~roni/10601/">Roni&#8217;s Machine Learning</a> 
+and <a href="http://www.stat.cmu.edu/~cshalizi/uADA/13/">Cosma&#8217;s 402</a> just to name a few), 
+then throw on top of that the <a href="http://www.cmusigmachi.org">Lambda Pi chapter</a>&#8217;s 
+first semester of operation as a chapter. We held our first <a href="http://dd.cmusigmachi.org/">Derby Days</a> 
+(<a href="https://github.com/sethvargo">Seth Vargo</a> deserves a mention for his 
+incredible job on that website, which he did mostly alone), initiated our 
+first class (for which I had the honor of being Ritual Chairman), graduated 
+our first Seniors, and earned ourselves our first 
+<a href="http://www.sigmachi.org/province-balfour-award">Province Balfour Award</a> (again, Seth). 
+This summer, I&#8217;m looking forward to representing my fraternity chapter as the 
+Delegate to our Grand Chapter held in Washington, D.C., and I might be making 
+a cameo appearance at <a href="http://balfourltw.sigmachi.org/">BLTW</a>.</p>
+
+<p>This summer, I&#8217;m back to work at CMU with another research division. For the 
+next two months I&#8217;ll be doing geoparsing with <a href="http://www.cs.cmu.edu/~gelern/">Judith Gelernter</a> in LTI. 
+The project has a lot of interesting background on social media interactons 
+and I&#8217;m hoping it&#8217;ll give me lots of table-talk in the future, to piggy-back 
+my previous research work at CMU. Recruiters love hearing about the weird 
+stuff you can accomplish with current statistics methods. It&#8217;s like a weird 
+arms race of who can come up with the most terrifying implications for user data.</p>
+
+<p>Other than that, it seems like nothing has really changed since the beginning 
+of the year, and it doesn&#8217;t even seem like it was that long ago. The only 
+noticable difference that I can tell is that I&#8217;m using Spotify now instead of 
+Pandora and I&#8217;m living with 4 of my brothers in an off-campus house instead 
+of with 15 of my brothers in the Sigma Chi house.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Picking the Right Fight]]></title>
+    <link href="http://www.speaksoftly.us/blog/picking-the-right-fight/"/>
+    <updated>2013-02-19T02:01:00-05:00</updated>
+    <id>http://www.speaksoftly.us/blog/picking-the-right-fight</id>
+    <content type="html"><![CDATA[<p>Today in Roni&#8217;s class we talked about picking fights. I think you&#8217;re within 
+your rights to tackle your problem any way you want, but it&#8217;s an important 
+battle to &#8220;pick the right fight&#8221;. </p>
+
+<!-- more -->
+
+<p>What I mean about &#8220;picking the right fight&#8221; in statistics, is to tread carefully
+when you make conclusions about the analysis. Often, we&#8217;re trying to show or 
+prove or disprove or undermine or support some claim given some data about
+the claim. So let&#8217;s say we&#8217;ve performed some experiment and have two binary questions: 
+Do we have enough data, and do we have low error?</p>
+
+<ul>
+  <li>
+    <p>Option 1:
+If you have tons of data and you have very low error, you should <strong>GO HOME</strong>. 
+There&#8217;s nothing else to be done here. Finish up, because you aren&#8217;t
+going to come up with anything interesting any more. Honestly, what could 
+be more perfect? This is like the ideal, frictionless scenario.</p>
+  </li>
+  <li>
+    <p>Option 2: 
+If you have not a lot of data and you have very high error, you should <strong>GO HOME</strong>.
+There&#8217;s nothing which <strong>can</strong> be done here. It&#8217;s an abysmal situation. 
+You can either continue to make poor predictions, or you could just start making 
+shit up. Either way, you have to rethink your strategy. This is where picking the right fight comes in later.</p>
+  </li>
+  <li>
+    <p>Option 3:
+If you have a lot of data but you have very high error, you should <strong>CRY</strong>.
+You dun goofed. Either your data is totally irrelevant (you should do more 
+statistical analysis), your algorithm is terrible (you should do more 
+statistical analysis), or you did something terribly wrong. More statistical 
+analysis wouldn&#8217;t hurt.</p>
+  </li>
+  <li>
+    <p>Option 4:
+If you don&#8217;t have a lot of data but you have very low error, you should be <strong>SKEPTICAL</strong>.
+It&#8217;s a fluke, do the test again. Don&#8217;t buy in to thinking that there&#8217;s a practically 
+significant relationship between children&#8217;s shoe sizes and their IQ. You&#8217;re not thinking
+through this clearly enough and you&#8217;re making mistakes along the way.</p>
+  </li>
+</ul>
+
+<h2 id="so-what-option-are-you">So what option are you?</h2>
+
+<p>Personally, I like being put into situation #2. There is some sort of morbid pleasure 
+in being able to wreak order out of chaos. But if you&#8217;re going to go down that path, 
+you need to be aware that you can only take those risks by picking the right fight. 
+How could we rectify the situation (pick a better fight) if we have too little data to speak of?
+How about bootstrapping more samples? How do we sample a more variable population if our
+current data is too homogenous? How about bootstrapping the residuals? </p>
+
+<p>OK, maybe you can just solve all of your problems by bootstrapping. Thanks 402.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Thoughts on 'Big Data' as a fad]]></title>
+    <link href="http://www.speaksoftly.us/blog/big-data-as-a-fad/"/>
+    <updated>2013-02-08T19:12:00-05:00</updated>
+    <id>http://www.speaksoftly.us/blog/big-data-as-a-fad</id>
+    <content type="html"><![CDATA[<p>As a current student pursuing a career in data science, it really gets on my 
+nerves when people ask me &#8220;What is Big Data?&#8221;, or worse, talk about how I 
+should get &#8220;into&#8221; it. The problem is that the size of the data is not what 
+makes data interesting. As a statistician, as a researcher in machine 
+learning, or just as a student, we are far more interested in figuring out 
+what to do with the <em>current</em> data, than worrying about big it is. </p>
+
+<!-- more -->
+
+<p>I get it. I need to be able to make accurate predictions and estimates and 
+forecasts and I might need to do that without as much data as I want, but 
+that&#8217;s a collection issue. Things don&#8217;t start falling into place just because
+you have a database with a lot of dense stuff in it. Your data science is only
+as good as the statistical analysis you put behind it. <em>True</em> Big Data is 
+about leveraging the correct data, in the correct form, with the correct models.</p>
+
+<p>On the other hand, we still have to deal with this &#8220;Big Data&#8221; word fiasco. 
+It&#8217;s starting to become a household buzzword, which is a sure sign that it&#8217;s 
+becoming &#8220;mainstream&#8221; and is no longer the corporate hipster slang it used to 
+be. Go do a lookup for the keyword phrase &#8220;Big Data&#8221; on LinkedIn and take a 
+look at the profiles that show up. We get lots of references to &#8220;Big Data&#8221; 
+platforms and systems, but does anyone actually say &#8220;Yea, I do data analysis.&#8221;</p>
+
+<p>No, they don&#8217;t.</p>
+
+<p>And it&#8217;s just like 10 years ago when you had people clamoring to get in line 
+for the &#8220;Data Mining&#8221; train. It created this false perception that somehow 
+these incredible important nuggets of information are hidden behind a thick 
+layer of dust and grime, but if we <strong>mine</strong> hard enough or use enough computers
+then we&#8217;ll be able to find it! </p>
+
+<p>Except that&#8217;s not how it works, either.</p>
+
+<p>More likely than not, you&#8217;re searching for patterns, not nuggets. And you&#8217;ll
+never know if you found your pattern or if you&#8217;re just looking at some more dirt.
+You&#8217;ll need your statistics (or a friendly statistician on-hand) to interpret 
+that dirt, and tell you how if you project the dirt into multidimensional 
+scaling then you can reduce misclassification of future dirt, somehow.</p>
+
+<p>The one good thing about all these people going heads-over-heels for Big Data 
+is that everything is being recorded. The data is already out there, being 
+voluntarily relinquished every day. Wait just long enough, and write a program
+that&#8217;s <em>just</em> smart enough, and you can start connecting some really cool dots.</p>
+
+<p>History will remember how the world was rocked by Web 2.0 (the &#8220;Social Revolution&#8221;
+of everything we do online), but there&#8217;s another storm coming. For years now,
+companies have been recording every ounce of data they can afford to store on 
+a hard drive and the user is willing to part with. Then they hand off that 
+information (they&#8217;ll tell you they never /sell/ it) to someone who can leverage it.
+The more dirt they have, the better chance they&#8217;ll be able to polish that dirt
+into a really cool training set of gold dirt, and then they&#8217;ll make tons of money.</p>
+
+<p>So now the question for me is, &#8220;Who is going to be the one to leverage that data?&#8221; 
+Big Data is nothing more than when your current data is too big for your current 
+hardware. It&#8217;s a scaling problem, and it&#8217;s an engineering problem, but Big Data is not a 
+scientific problem. Statistical analysis is a scientific problem, and I&#8217;ll try 
+to position myself right at the front of that train. Web 3.0: the Data Revolution.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[In God we trust.]]></title>
+    <link href="http://www.speaksoftly.us/blog/in-god-we-trust/"/>
+    <updated>2013-02-08T14:22:00-05:00</updated>
+    <id>http://www.speaksoftly.us/blog/in-god-we-trust</id>
+    <content type="html"><![CDATA[<blockquote><p>In God we trust. Everybody else bring data.</p><footer><strong>W. Edwards Deming</strong> <cite>The Elements of Statistical Learning</cite></footer></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World! Octopress is finally running!]]></title>
+    <link href="http://www.speaksoftly.us/blog/hello-world-octopress-is-finally-running/"/>
+    <updated>2013-02-08T14:22:00-05:00</updated>
+    <id>http://www.speaksoftly.us/blog/hello-world-octopress-is-finally-running</id>
+    <content type="html"><![CDATA[<p>I have pretty much no idea what business I have writing a blog. I have a terrible
+attention span to writing. I think it looks really tacky when a blog goes
+weeks or months in between posts. To make matters worse, I&#8217;m not super 
+thrilled with my choice of domain (on the <code>.us</code> TLD), but there was a $3.99 sale 
+at <a href="http://name.com">name.com</a> and I felt like it was a decent price. It gives 
+me a little bit of a playground to play in without shelling out a dozen bucks
+for a &#8220;real&#8221; <code>.com</code> website. </p>
+
+<p>Getting Octopress set up was in and of itself an endeavor, but I&#8217;ll get the 
+hang of it as time goes on. The host I&#8217;m using only lets me use static HTML 
+files so Octopress was a very ideal system. It took maybe 16 hours to get the 
+whole thing together. I had major issues with Ruby installation and raking 
+files correctly. I&#8217;m pretty sure I still hate the command <code>bundle install</code>. 
+I highly recommend those following in my footsteps to use <code>yari</code>.</p>
+
+<p>One of the other things that attracted me to a blog was being able to publish code 
+snippets in Markdown. Since I&#8217;ve gotten into using Markdown for my text files, 
+I&#8217;ve started to enjoy just&#8230; writing Markdown. It&#8217;s kind of fun, and everything
+comes out looking so nice. <a href="http://www.github.com/sethvargo">Seth</a> and I want to
+port our chapter&#8217;s bylaws to Markdown so they&#8217;re not mired in the bullshit <code>.docx</code> 
+they&#8217;re languishing in now. Not to say we&#8217;ll be publishing <code>LaTeX</code> in fraternity bylaws, 
+but the Office format bothers me. A lot.</p>
+
+<h2 id="speak-softly-and-carry-big-data">Speak Softly, and carry Big Data.</h2>
+
+<p>As for the blog, I&#8217;m only here to talk about things that I&#8217;m really passionate 
+about. Yes, a lot of that will come from my professional work. Expect lots of statistics,
+math, some physics, and tons of programming thrown in. But I&#8217;ll also be here to
+write about some of the stuff I get engaged with, and probably mention a lot of the 
+Sigma Chi stuff I get involved in.</p>
+
+<p>What else could be more important?</p>
+]]></content>
+  </entry>
+  
+</feed>

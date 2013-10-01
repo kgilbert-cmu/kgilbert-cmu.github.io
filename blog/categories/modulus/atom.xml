@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Modulus | speak softly, and carry Big Data]]></title>
+  <link href="http://www.speaksoftly.us/blog/categories/modulus/atom.xml" rel="self"/>
+  <link href="http://www.speaksoftly.us/"/>
+  <updated>2013-10-01T01:45:06-04:00</updated>
+  <id>http://www.speaksoftly.us/</id>
+  <author>
+    <name><![CDATA[Kevin Gilbert]]></name>
+    <email><![CDATA[kgilbert.cmu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Distribution of the Modulus of a Random Variable]]></title>
+    <link href="http://www.speaksoftly.us/blog/distribution-of-the-modulus-of-a-random-variable/"/>
+    <updated>2013-06-10T07:33:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/distribution-of-the-modulus-of-a-random-variable</id>
+    <content type="html"><![CDATA[<p>We know that the distribution of the sum <script type="math/tex">Y = X_1 + X_2 + ... + X_n</script> for n 
+random uniform variables approximates a normal distribution as n gets larger. 
+For right now, we&#8217;re referring to the discrete uniform distribution, and not 
+the continuous one.</p>
+
+<h3 id="what-is-the-distribution-of-y-mod-b-for-any-base-b">What is the distribution of Y mod b, for any base b?</h3>
+
+<!-- more -->
+
+<p>Alright, rewind. Earlier this year, I had a technical interview and the 
+following was an actual interview question: mimic <code>rand7</code>, given only <code>rand5</code>. 
+For those of us lucky enough to work with a statistical language like <strong>R</strong>, 
+we&#8217;ve got:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="o">&amp;</span>gt<span class="p">;</span> rand7 <span class="o">=</span> sample<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">7</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+</span><span class='line'><span class="o">&amp;</span>gt<span class="p">;</span> rand5 <span class="o">=</span> sample<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Boom. Problem done. Well, not exactly. The goal of this interview question is 
+to figure out a way to expand the range of <code>rand5</code> while preserving the 
+uniformity of each output value in <code>rand7</code>. I think it&#8217;s only a disarming 
+question in an interview because we don&#8217;t often work with the intricacies of 
+random number generation in our coursework. Even at a school like CMU, 
+we&#8217;re usually dealing with the analysis of the distribution, not its transformations.
+The most important task in this problem is to ensure that all 7 outputs have 
+exactly equal probability of being output, even though you&#8217;re only being given 
+enough &#8220;randomness&#8221; for 5 outputs. In more modern parlance, we have to pull 
+some entropy <em>out of our ass</em>. </p>
+
+<p>I&#8217;ve researched a couple solutions to this problem, and they range from simple 
+to esoteric. One of the more complex options is to use our smaller RNG to 
+uniformly build a larger generater than we actually need, then sample back 
+down to the range we want. The second step, to sample back down, is guaranteed
+to be uniform as long as we only sample within a particular range, seen below.</p>
+
+<p>Let&#8217;s generalize: suppose our problem was &#8220;given <code>rand2</code>, compute <code>rand3</code>.&#8221; </p>
+
+<p>Really, this is the base case of our interview question, if you will. </p>
+
+<p>And the beautiful thing is that if we consider the outputs of <code>rand2</code> as the 
+paths along a binary tree, we can make a pretty powerful metaphor for this 
+problem. So let&#8217;s say we take the left branch of our binary tree if 
+<code>rand2 == 0</code> and the right branch if <code>rand2 == 1</code>. Every time we decide to 
+call <code>rand2</code>, we have to add a level to the tree. At the bottom, we label each 
+leaf node with a number: <code>1</code>, <code>2</code>, or <code>3</code>. These labels are our RNG output. </p>
+
+<p>If our tree has $j$ levels at the end, then we&#8217;ll make $j$ calls to <code>rand2</code>, take 
+those paths, then return the label at the bottom-most leaf.</p>
+
+<p>Without even considering how to decide which leaf nodes should be labeled 
+what, we note that the probability of reaching any of the nodes labeled <code>3</code> 
+would be to sum up the probabilities along the path to reach each such node 
+labeled <code>3</code>. Since the probability to reach one particular node is 
+<script type="math/tex">\tfrac{1}{2^j}</script> (where $j$ is the level in which the node is found), then the 
+total probability to reach any of our nodes labeled <code>3</code> would be the sum of 
+that. This makes the form of our probability statement something like 
+<script type="math/tex"> \sum_j \tfrac{1}{2^j} = \tfrac{1}{2^a} + \tfrac{1}{2^b} + \tfrac{1}{2^c} + ...</script></p>
+
+<p>The question is: is there a series of reciprocal powers <script type="math/tex">\{a, b, c, ...\}</script> 
+such that <script type="math/tex">\tfrac{1}{3} = \tfrac{1}{2^a} + \tfrac{1}{2^b} + \tfrac{1}{2^c} + ...</script>?</p>
+
+<p>And the answer is no, because 2 and 3 are <strong>relatively prime</strong>. Well that&#8217;s simple. Math is cool.</p>
+
+<h2 id="so-what-do-we-do">So what do we do?</h2>
+
+<p>We need to use our smaller RNG to generate a larger range than either RNG 
+(think kind of like a least-common-multiple) and then reduce back down to the 
+target RNG. Generation of the larger range can be done easily enough by 
+&#8220;building&#8221; a large number, in a very literal sense. Reduction can also be done
+easily with repeated sampling. </p>
+
+<p>Let&#8217;s go back to our 5 &amp; 7 case.  What we&#8217;ll do is &#8220;create&#8221; a random base-5 
+number with <code>num = 5 * (rand5() - 1) + (rand5() - 1)</code> and as long as &#8216;num&#8217; is 
+less than 21 (in base 10) (41 in base 5), then its modulus by 7 will be 
+uniform, because it is a multiple of 7 (in this case 3 * 7). You could 
+realistically use any multiple of 7, I think. I&#8217;d really like it if somebody 
+could back me up on that claim.</p>
+
+<p>Here&#8217;s the solution my interviewer emphatically claimed was the only solution:</p>
+
+<p><code>java Solution by Gayle Laakman http://www.crackingthecodinginterview.com/content/cracking-coding-interview
+public static int rand7() {
+  while (true) {
+    int num = 5 * (rand5() - 1) + (rand5() - 1);
+    if (num &lt; 21) return (num % 7 + 1);
+  }
+}
+</code></p>
+
+<p>Let&#8217;s get a couple criticisms out of the way. </p>
+
+<ul>
+  <li>The solution could run forever, but <script type="math/tex">\sum_{i=1}^{\infty} \tfrac{1}{2^i} = 1</script> converges, so you&#8217;ll get something eventually. </li>
+  <li><em>It&#8217;s not intuitive at all</em>. </li>
+</ul>
+
+<p>It certainly wasn&#8217;t the first thing I thought of, yet it&#8217;s the &#8220;by-the-book&#8221; solution.</p>
+
+<p>So let&#8217;s look at a different solution for this problem, and one which bothered 
+me the moment I saw it work. You&#8217;d think that we want things to work, but I&#8217;m 
+surprised because I feel like it <strong>shouldn&#8217;t</strong> work. It feels like this solution
+is taking the easy way out, and then to top it all off, <strong>there&#8217;s no Google results</strong>
+that suggest it&#8217;s even viable.</p>
+
+<h2 id="well-take-seven-random-samples-of-15-add-them-up-and-take-their-modulus">We&#8217;ll take seven random samples of 1:5, add them up, and take their modulus.</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="o">&amp;</span>gt<span class="p">;</span> rand5 <span class="o">=</span> <span class="kr">function</span><span class="p">()</span> sample<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+</span><span class='line'><span class="o">&amp;</span>gt<span class="p">;</span> rand7 <span class="o">=</span> <span class="kr">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    x <span class="o">=</span> replicate<span class="p">(</span><span class="m">7</span><span class="p">,</span> rand5<span class="p">())</span>
+</span><span class='line'>    Y <span class="o">=</span> sum<span class="p">(</span>x<span class="p">)</span>
+</span><span class='line'>    <span class="kr">return</span><span class="p">(</span>Y <span class="o">%%</span> <span class="m">7</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="o">&amp;</span>gt<span class="p">;</span> plot<span class="p">(</span>density<span class="p">(</span>replicate<span class="p">(</span><span class="m">1e6</span><span class="p">,</span> rand7<span class="p">())),</span> main <span class="o">=</span> <span class="o">&amp;</span><span class="c1">#8220;Uniform Density&amp;#8221;)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Wait&#8230; What the hell? </p>
+
+<p><span class='caption-wrapper'><img class='caption' src='http://i.imgur.com/2cXZaaU.jpg' width='' height='' alt='It looks totally uniform!' title='It looks totally uniform!'><span class='caption-text'>It looks totally uniform!</span></span></p>
+
+<p>Let&#8217;s look at it this way, the sum <script type="math/tex">Y = X_1 + X_2 + ... + X_n</script> for n random 
+uniform variables approximates a normal distribution as n gets larger. 
+Everybody agrees, yes? </p>
+
+<p>Then right before that modulus, our hero <script type="math/tex">Y</script> should be something really 
+close to a normal distribution with mean 21 and standard deviation <script type="math/tex">\sqrt{14}</script>. 
+How close? </p>
+
+<p><span class='caption-wrapper'><img class='caption' src='http://i.imgur.com/p7jID8z.jpg' width='' height='' alt='Pretty close.' title='Pretty close.'><span class='caption-text'>Pretty close.</span></span></p>
+
+<p>The mean is 21 because that&#8217;s <script type="math/tex">E[Y] = E[\sum_i X_i] = \sum_i E[X_i]</script> by 
+<a href="http://en.wikipedia.org/wiki/Expected_value#Linearity">linearity of expectation</a> 
+and it just so happens that for a uniform random variable <script type="math/tex">X \sim Unif(a,b)</script>, 
+<script type="math/tex">E[X] = \frac{a + b}{2}</script> so <script type="math/tex">E[Y] = 7 \times E[X] = 7 \times \frac{1+5}{2} = 7 \times 3 = 21</script>. 
+The variance of a uniform distribution is (the really weird) <script type="math/tex">V[X] = \frac{n^2 - 1}{12}</script> 
+where <script type="math/tex">n</script> is the number of discrete possibilities. Since we&#8217;re looking at 
+the discrete uniform distribution from 1 to 5, that gives us 5 total choices 
+and <script type="math/tex">V[X] = \frac{5^2 - 1}{12} = 2</script>. Then by linearity <script type="math/tex">V[Y] = V[\sum_i X_i] = \sum_i V[X_i] = 7 \times 2 = 14</script>. 
+Thus, our standard deviation is <script type="math/tex">\sqrt{14}</script>.</p>
+
+<p>So right before that modulus, we&#8217;re definitely working with some value that 
+has been randomly drawn from <script type="math/tex">N(21,\sqrt{14})</script>. The normal distribution, a 
+unimodal density curve, indicates that we should expect to get the sum 21 more 
+often than any other number. Ok, it&#8217;s not a huge amount more, just about 4000 
+times more than its neighbors 20 and 22.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='r'><span class='line'><span class="o">&amp;</span>gt<span class="p">;</span> tmp <span class="o">=</span> replicate<span class="p">(</span><span class="m">1e6</span><span class="p">,</span> sum<span class="p">(</span>replicate<span class="p">(</span><span class="m">7</span><span class="p">,</span> rand5<span class="p">())))</span>
+</span><span class='line'><span class="o">&amp;</span>gt<span class="p">;</span> cbind<span class="p">(</span>table<span class="p">(</span>tmp<span class="p">),</span> <span class="m">7</span><span class="o">:</span><span class="m">35</span> <span class="o">%%</span> <span class="m">7</span><span class="p">)</span>
+</span><span class='line'>     <span class="p">[,</span><span class="m">1</span><span class="p">]</span> <span class="p">[,</span><span class="m">2</span><span class="p">]</span>
+</span><span class='line'><span class="m">7</span>       <span class="m">9</span>    <span class="m">0</span>
+</span><span class='line'><span class="m">8</span>      <span class="m">79</span>    <span class="m">1</span>
+</span><span class='line'><span class="m">9</span>     <span class="m">345</span>    <span class="m">2</span>
+</span><span class='line'><span class="m">10</span>   <span class="m">1044</span>    <span class="m">3</span>
+</span><span class='line'><span class="m">11</span>   <span class="m">2638</span>    <span class="m">4</span>
+</span><span class='line'><span class="m">12</span>   <span class="m">5961</span>    <span class="m">5</span>
+</span><span class='line'><span class="m">13</span>  <span class="m">11351</span>    <span class="m">6</span>
+</span><span class='line'><span class="m">14</span>  <span class="m">19368</span>    <span class="m">0</span>
+</span><span class='line'><span class="m">15</span>  <span class="m">30733</span>    <span class="m">1</span>
+</span><span class='line'><span class="m">16</span>  <span class="m">45068</span>    <span class="m">2</span>
+</span><span class='line'><span class="m">17</span>  <span class="m">61191</span>    <span class="m">3</span>
+</span><span class='line'><span class="m">18</span>  <span class="m">77753</span>    <span class="m">4</span>
+</span><span class='line'><span class="m">19</span>  <span class="m">91031</span>    <span class="m">5</span>
+</span><span class='line'><span class="m">20</span> <span class="m">100546</span>    <span class="m">6</span>
+</span><span class='line'><span class="m">21</span> <span class="m">104512</span>    <span class="m">0</span>
+</span><span class='line'><span class="m">22</span> <span class="m">100739</span>    <span class="m">1</span>
+</span><span class='line'><span class="m">23</span>  <span class="m">91845</span>    <span class="m">2</span>
+</span><span class='line'><span class="m">24</span>  <span class="m">77630</span>    <span class="m">3</span>
+</span><span class='line'><span class="m">25</span>  <span class="m">61064</span>    <span class="m">4</span>
+</span><span class='line'><span class="m">26</span>  <span class="m">45485</span>    <span class="m">5</span>
+</span><span class='line'><span class="m">27</span>  <span class="m">30779</span>    <span class="m">6</span>
+</span><span class='line'><span class="m">28</span>  <span class="m">19544</span>    <span class="m">0</span>
+</span><span class='line'><span class="m">29</span>  <span class="m">11350</span>    <span class="m">1</span>
+</span><span class='line'><span class="m">30</span>   <span class="m">5680</span>    <span class="m">2</span>
+</span><span class='line'><span class="m">31</span>   <span class="m">2633</span>    <span class="m">3</span>
+</span><span class='line'><span class="m">32</span>   <span class="m">1144</span>    <span class="m">4</span>
+</span><span class='line'><span class="m">33</span>    <span class="m">370</span>    <span class="m">5</span>
+</span><span class='line'><span class="m">34</span>     <span class="m">91</span>    <span class="m">6</span>
+</span><span class='line'><span class="m">35</span>     <span class="m">17</span>    <span class="m">0</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Each row is one of our potential sum values of Y, the first column is the 
+number of times that sum appeared in a simulation of one million iterations, 
+and the second column is the corresponding modulus of that sum. Now, I figured 
+the peak in the center should inflate the number of instances of <code>21 %% 7</code> so 
+that it is the most-common-modulus value. As it turns out, while 21 
+(and 21 mod 7 = 0) is the most common, 7 mod 7 = 0 and 35 mod 7 = 0 are the 
+two <em>least</em> common. And in fact, it occurs in such perfect proportion that 
+this cascades all along the normal distribution so that every modulus 
+remainder has approximately equal number of sum values <script type="math/tex">Y</script> which are 
+congruent modulo 7.</p>
+
+<p>The normal distribution &#8220;folds&#8221; on itself in such a perfectly uniform way. </p>
+
+<p>It&#8217;s like it was destined to be this way.</p>
+
+<p>I couldn&#8217;t shake the feeling that the &#8220;proper&#8221; answer would be a truncated 
+normal distribution. On the other hand, modulus can only return one of the 
+integer values up to its base, and with 29 possibilities, we would run out of 
+integers four times over. My presumption, again, was that we&#8217;d see the most 
+modulus values at 21 mod 7 = 0. But where would 20 and 22 go? Well those 
+modulus values fall into -1 (6 mod 7) and 1 mod 7. Then the next set would be 
+at 5 mod 7 &amp; 2 mod 7, then 4 &amp; 3&#8230; then 3 &amp; 4. The wide tail support of our 
+normal distribution folds over to smooth everything out. </p>
+
+<p>So I did the only logical thing and turned to <a href="http://www.stat.cmu.edu/~cshalizi/">Cosma Shalizi</a> 
+to ask him why the modulus of a non-uniform distribution would resolve to a 
+uniform distribution in this way, emphasizing the way that the tails fold over 
+each other.</p>
+
+<h2 id="equidistribution">Equidistribution</h2>
+
+<p>Cosma confirmed that it is more a factor of the modulus than the normal 
+distribution. </p>
+
+<p>Here, roughly speaking, is the trick: take a non-negative but discrete random variable <script type="math/tex">Y</script>, with probability mass function <script type="math/tex">f</script>. We want to know the probability that <strong>Y mod 7 = k</strong>, for each <script type="math/tex">k</script>. Fix <script type="math/tex">k=0</script>. Then</p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+
+\begin{align}
+	Pr(Y mod 7 = 0) &=& Pr(Y=0) &+& Pr(Y=7) &+& Pr(Y=14) &+& ... \\
+                    &=& f(0) &+& f(7) &+& f(14) &+& ... \\
+\end{align}
+ %]]&gt;</script>
+
+<p>Now do this for all the other possible values of Y mod 7:</p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+
+\begin{align}
+	Pr(Y\mod 7=1) &=& f(1) + f(8) + f(15) + ... \\
+    Pr(Y\mod 7=2) &=& f(2) + f(9) + f(16) + ... \\
+	&...& \\
+	Pr(Y\mod 7=6) &=& f(6) + f(13) + f(22) + ... \\
+\end{align}
+ %]]&gt;</script>
+
+<p>Assume <script type="math/tex">f(y)</script> is about the same as <script type="math/tex">f(y+k)</script>, provided k is small, specifically if <script type="math/tex">% &lt;![CDATA[
+k < 7 %]]&gt;</script>.  If we think of <script type="math/tex">Y = X_1 + X_2+ ... X_n</script> and let n get very big, this makes sense, the typical scale over which the distribution is going to change is going to get larger and larger, so that a difference of just 7 becomes negligible.  But now we can say that</p>
+
+<ul>
+  <li><script type="math/tex">f(0), f(1), ..., f(6)</script> are all about equal</li>
+  <li>&#8230;</li>
+  <li><script type="math/tex">f(7), f(8), ... f(13)</script> are all about equal, etc.</li>
+</ul>
+
+<p>so</p>
+
+<script type="math/tex; mode=display"> Pr(Y\mod 7 = 0) = Pr(Y \mod 7 = 1) = ~...~ = Pr(Y\mod 7 = 6) = \frac{1}{7} </script>
+
+<p>Thus, we find that the distribution of <strong>Y mod k</strong> is uniform, regardless of whatever
+distribution <script type="math/tex">Y</script> itself is drawn from. </p>
+]]></content>
+  </entry>
+  
+</feed>

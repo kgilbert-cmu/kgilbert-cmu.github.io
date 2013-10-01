@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Markdown | speak softly, and carry Big Data]]></title>
+  <link href="http://www.speaksoftly.us/blog/categories/markdown/atom.xml" rel="self"/>
+  <link href="http://www.speaksoftly.us/"/>
+  <updated>2013-10-01T01:45:06-04:00</updated>
+  <id>http://www.speaksoftly.us/</id>
+  <author>
+    <name><![CDATA[Kevin Gilbert]]></name>
+    <email><![CDATA[kgilbert.cmu@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World! Octopress is finally running!]]></title>
+    <link href="http://www.speaksoftly.us/blog/hello-world-octopress-is-finally-running/"/>
+    <updated>2013-02-08T14:22:00-05:00</updated>
+    <id>http://www.speaksoftly.us/blog/hello-world-octopress-is-finally-running</id>
+    <content type="html"><![CDATA[<p>I have pretty much no idea what business I have writing a blog. I have a terrible
+attention span to writing. I think it looks really tacky when a blog goes
+weeks or months in between posts. To make matters worse, I&#8217;m not super 
+thrilled with my choice of domain (on the <code>.us</code> TLD), but there was a $3.99 sale 
+at <a href="http://name.com">name.com</a> and I felt like it was a decent price. It gives 
+me a little bit of a playground to play in without shelling out a dozen bucks
+for a &#8220;real&#8221; <code>.com</code> website. </p>
+
+<p>Getting Octopress set up was in and of itself an endeavor, but I&#8217;ll get the 
+hang of it as time goes on. The host I&#8217;m using only lets me use static HTML 
+files so Octopress was a very ideal system. It took maybe 16 hours to get the 
+whole thing together. I had major issues with Ruby installation and raking 
+files correctly. I&#8217;m pretty sure I still hate the command <code>bundle install</code>. 
+I highly recommend those following in my footsteps to use <code>yari</code>.</p>
+
+<p>One of the other things that attracted me to a blog was being able to publish code 
+snippets in Markdown. Since I&#8217;ve gotten into using Markdown for my text files, 
+I&#8217;ve started to enjoy just&#8230; writing Markdown. It&#8217;s kind of fun, and everything
+comes out looking so nice. <a href="http://www.github.com/sethvargo">Seth</a> and I want to
+port our chapter&#8217;s bylaws to Markdown so they&#8217;re not mired in the bullshit <code>.docx</code> 
+they&#8217;re languishing in now. Not to say we&#8217;ll be publishing <code>LaTeX</code> in fraternity bylaws, 
+but the Office format bothers me. A lot.</p>
+
+<h2 id="speak-softly-and-carry-big-data">Speak Softly, and carry Big Data.</h2>
+
+<p>As for the blog, I&#8217;m only here to talk about things that I&#8217;m really passionate 
+about. Yes, a lot of that will come from my professional work. Expect lots of statistics,
+math, some physics, and tons of programming thrown in. But I&#8217;ll also be here to
+write about some of the stuff I get engaged with, and probably mention a lot of the 
+Sigma Chi stuff I get involved in.</p>
+
+<p>What else could be more important?</p>
+]]></content>
+  </entry>
+  
+</feed>

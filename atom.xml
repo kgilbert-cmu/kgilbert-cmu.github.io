@@ -4,7 +4,7 @@
   <title><![CDATA[speak softly, and carry Big Data]]></title>
   <link href="http://www.speaksoftly.us/atom.xml" rel="self"/>
   <link href="http://www.speaksoftly.us/"/>
-  <updated>2013-10-01T01:45:06-04:00</updated>
+  <updated>2013-10-01T13:02:34-04:00</updated>
   <id>http://www.speaksoftly.us/</id>
   <author>
     <name><![CDATA[Kevin Gilbert]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Indians and the Pirates]]></title>
+    <link href="http://www.speaksoftly.us/blog/the-indians-and-the-pirates/"/>
+    <updated>2013-10-01T12:35:00-04:00</updated>
+    <id>http://www.speaksoftly.us/blog/the-indians-and-the-pirates</id>
+    <content type="html"><![CDATA[<p><img class="center" src="../../images/blog/cleveland.jpg" /></p>
+
+<p>The Cleveland Indians hit the postseason in 1920, 1948, 1954, 1995-99, 2001, and 2007<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>. The Pittsburgh Pirates made it in 1901-03, 1909, 1925, 1927, 1960, 1970-72, 1974-75, 1979, and 1990-92<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>. This October (<a href="https://twitter.com/search?q=%23buctober">#Buctober</a>), both teams are in <a href="http://www.mlbplayoffsbracket.com/2013/index.php">the MLB postseason</a>, with records of 92-70 (Cleveland) and 94-68 (Pittsburgh), both records good for the #4 seed. This is the first time, in history, that these two teams have been in the playoffs at the same time, and also the first time that either team has gotten in with a wild card. It&#8217;s a great time to be a fan of these Lake Erie baseball teams. </p>
+
+<p>The Pirates play the Reds tonight and the Indians play the Rays tomorrow night.</p>
+
+<h1 id="good-luck-buccos-and-go-tribe">Good luck, Buccos, and Go Tribe!</h1>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>http://en.wikipedia.org/wiki/List_of_Cleveland_Indians_seasons <a href="#fnref:1" rel="reference">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>http://en.wikipedia.org/wiki/List_of_Pittsburgh_Pirates_seasons<a href="#fnref:2" rel="reference">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Distribution of the Modulus of a Random Variable]]></title>
